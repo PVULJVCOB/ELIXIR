@@ -11,7 +11,7 @@ Refraction-first "liquid glass" that bends the background with subtle chromatic 
 
 - Uses RealGlass to capture the page and render a refractive pass over the glass element with parameters for IOR, thickness, frosting, and chromatic aberration.
 - Elements marked with `data-realglass` are hidden until the initial capture finishes to avoid self-capture.
-- A CSS-driven highlight follows the pointer (mouse/touch) to accentuate curvature.
+- A subtle static highlight accents curvature (no pointer-follow effect).
 
 ## Try it
 
@@ -33,7 +33,7 @@ You can tweak options directly on the element in `liquidglass.html`:
 ```json
 {
   "frosting": 0.15,
-  "borderRadius": 32,
+  "borderRadius": 24,
   "lightStrength": 2.4,
   "chromaticAberration": 1.05,
   "glassOpacity": 0.09,

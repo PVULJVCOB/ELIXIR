@@ -32,8 +32,8 @@
 				eine Screenshot-basierte Brechung mit leichtem Farbsäumen an den Rändern.
 			</p>
 			<p>
-				Die Kanten zeigen eine subtile chromatische Aberration, während ein sanftes Specular-Highlight
-				die Materialität betont. Bewege die Maus, um das Highlight wandern zu lassen.
+				Die Kanten zeigen eine subtile chromatische Aberration, während ein sanftes Highlight
+				die Materialität betont.
 			</p>
 		</section>
 
@@ -68,7 +68,7 @@
 			 data-realglass
 			 data-realglass-options='{
 				 "frosting": 0,
-				 "borderRadius": 32,
+				 "borderRadius": 24,
 				 "lightStrength": 0.2,
 				 "chromaticAberration": 1.05,
 				 "glassOpacity": 0.1,
@@ -89,61 +89,16 @@
 					<div class="nav_stroke"></div>
 	</div>
 
-	<script>
-		// Lightweight pointer-follow highlight for the specular pass (CSS-driven)
-			(function(){
-			const el = document.getElementById('liquidGlass');
-			if (!el) return;
-			let raf = 0, targetX = 0.6, targetY = 0.3, curX = targetX, curY = targetY;
-			const lerp = (a, b, t) => a + (b - a) * t;
-
-				function onMove(e){
-				const vw = window.innerWidth, vh = window.innerHeight;
-				// Normalize to 0..1 in viewport space
-				targetX = Math.max(0, Math.min(1, e.clientX / vw));
-				targetY = Math.max(0, Math.min(1, e.clientY / vh));
-				if (!raf) tick();
-			}
-
-				function onTouch(e){
-					const t = e.touches && e.touches[0];
-					if (!t) return;
-					const vw = window.innerWidth, vh = window.innerHeight;
-					targetX = Math.max(0, Math.min(1, t.clientX / vw));
-					targetY = Math.max(0, Math.min(1, t.clientY / vh));
-					if (!raf) tick();
-				}
-
-			function tick(){
-				raf = requestAnimationFrame(() => {
-					curX = lerp(curX, targetX, 0.14);
-					curY = lerp(curY, targetY, 0.14);
-					el.style.setProperty('--hl-x', (curX * 100).toFixed(2) + '%');
-					el.style.setProperty('--hl-y', (curY * 100).toFixed(2) + '%');
-					// Continue animating until close to target
-					const dx = Math.abs(curX - targetX), dy = Math.abs(curY - targetY);
-					if (dx > 0.002 || dy > 0.002) tick(); else raf = 0;
-				});
-			}
-
-					window.addEventListener('mousemove', onMove, { passive: true });
-					window.addEventListener('touchstart', onTouch, { passive: true });
-					window.addEventListener('touchmove', onTouch, { passive: true });
-			// Initialize once after load
-			el.style.setProperty('--hl-x', '60%');
-			el.style.setProperty('--hl-y', '30%');
-		})();
-	</script>
 		<script>
 			// Navbar-like flying border, adapted to hover the entire glass container
-			(function(){
+				(function(){
 				const hostEl = document.getElementById('liquidGlass');
 				if (!hostEl) return;
 				const strokeHost = hostEl.querySelector('.nav_stroke');
 				if (!strokeHost) return;
 				strokeHost.innerHTML = '';
 
-				const cfg = { radius: 32, tail: 18, gap: 10, ease: 0.12 };
+					const cfg = { tail: 18, gap: 10, ease: 0.12 };
 				const NS = 'http://www.w3.org/2000/svg';
 				const svg = document.createElementNS(NS, 'svg');
 				svg.classList.add('flying-border');
@@ -162,6 +117,28 @@
 				const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
 				const mix = (a, b, t) => a * (1 - t) + b * t;
 
+										function getHostRadius(){
+											const cs = getComputedStyle(hostEl);
+											// Prefer top-left (single corner) because getComputedStyle may return compound values
+											const raw = cs.borderTopLeftRadius || cs.borderRadius || '0px';
+											// raw can be like "32px" or "32px 32px" or "50%" or "50% 50%" or "32px / 32px"
+											// Extract the first token before space or '/'
+											const token = String(raw).split(/[\s\/]+/)[0];
+											let r = 0;
+											if (token.endsWith('%')){
+												const pct = parseFloat(token);
+												if (isFinite(pct)){
+													const rect = hostEl.getBoundingClientRect();
+													// Per CSS spec, percentage radii are relative to corresponding box dimensions; for a uniform rx use min axis
+													r = Math.min(rect.width, rect.height) * (pct / 100);
+												}
+											} else {
+												const m = /([\d.]+)px/.exec(token);
+												r = m ? parseFloat(m[1]) : 0;
+											}
+											return isFinite(r) ? r : 0;
+										}
+
 				function setRectGeometry(width, height, radius) {
 					const innerW = Math.max(0, width - 3);
 					const innerH = Math.max(0, height - 3);
@@ -174,17 +151,21 @@
 					});
 				}
 
-				function recalcGeometry(){
+								function recalcGeometry(){
 					const hostRect = hostEl.getBoundingClientRect();
-					const width = Math.max(0, hostRect.width + 22);
-					const height = Math.max(0, hostRect.height + 22);
+									const OUTSET = 11;         // nav_stroke overlay extends this many px beyond each side
+									const STROKE_INSET = 1.5;  // rect x/y inset used for 3px strokes (centered)
+									const width = Math.max(0, hostRect.width + OUTSET * 2);
+									const height = Math.max(0, hostRect.height + OUTSET * 2);
 					svg.setAttribute('width', width);
 					svg.setAttribute('height', height);
 					svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
 					const innerW = Math.max(0, width - 3);
 					const innerH = Math.max(0, height - 3);
-					const radius = Math.min(cfg.radius, Math.max(0, Math.min(innerW, innerH) / 2));
+									// Offset the runner radius to match the host's curvature despite the outward overlay and the stroke inset
+									const desired = getHostRadius() + (OUTSET - STROKE_INSET);
+									const radius = Math.min(desired, Math.max(0, Math.min(innerW, innerH) / 2));
 					setRectGeometry(width, height, radius);
 
 					const perimeter = rectPrimary.getTotalLength ? rectPrimary.getTotalLength() : 2 * (innerW + innerH);
