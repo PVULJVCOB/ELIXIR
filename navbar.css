@@ -98,7 +98,7 @@ main { min-height: 140vh; }
   width: min(92vw, 520px);
   min-height: 220px;
   padding: 20px 22px;
-  border-radius: 30px;
+  border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.3);
   z-index: 1; /* sits above content but under elements that need to be on top, nav has its own z */
   display: grid;
