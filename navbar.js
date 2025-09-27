@@ -27,6 +27,29 @@
     // Show elements by overriding display:none from CSS when mobile
     clickCatch.style.display = 'flex';
     mobileMenu.style.display = 'flex';
+    // Apply RealGlass lazily once the panel is visible to get correct sizing
+    try {
+      if (window.RealGlassManager && !mobileMenu.dataset.rgApplied) {
+        window.RealGlassManager
+          .applyTo(mobileMenu, {
+            borderRadius: 6,
+            frosting: 0.18,
+            chromaticAberration: 0.12,
+            glassOpacity: 0.08,
+            lightStrength: 1.9,
+            lightX: 0.68,
+            lightY: 0.32,
+            edgeSmoothness: 1.8,
+            ior: 1.52,
+            specularShininess: 60,
+            thickness: 1.4,
+            tintColor: [0.98, 0.99, 1.0],
+            tintStrength: 0.05
+          })
+          .then(()=>{ mobileMenu.dataset.rgApplied = '1'; })
+          .catch(console.error);
+      }
+    } catch (e) { /* no-op */ }
     menuPrompt.innerHTML = closeIcon;
     document.addEventListener('keydown', onKeyDown);
   }
@@ -265,7 +288,10 @@
   const desktopNav = document.querySelector('.nav.svelte-na9uof');
   const mobileBar = document.querySelector('.mobile-nav.svelte-na9uof');
   const mobilePanel = document.querySelector('#mobileMenu');
+  const glassCard = document.querySelector('#glassCard');
   initFlyingBorder(desktopNav);
   initFlyingBorder(mobileBar);
   initFlyingBorder(mobilePanel, { tail: 30, isBottom: true });
+  // Card border with slightly larger radius to match 16px border-radius
+  initFlyingBorder(glassCard, { radius: 16, tail: 16 });
 })();

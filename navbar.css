@@ -88,3 +88,44 @@ button { appearance: none; border: 0; background: none; padding: 0; font: inheri
 }
 
 main { min-height: 140vh; }
+
+/* Fixed centered glass card */
+.glass-card.svelte-na9uof {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 520px);
+  min-height: 220px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.3);
+  z-index: 1; /* sits above content but under elements that need to be on top, nav has its own z */
+  display: grid;
+}
+.glass-card .nav_stroke.svelte-na9uof {
+  position: absolute;
+  top: -11px; right: -11px; bottom: -11px; left: -11px;
+  pointer-events: none;
+}
+.glass-card_content {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  text-align: center;
+}
+.glass-card .nav_button.svelte-na9uof {
+  background: var(--cta-color);
+  color: var(--cta-text-color);
+  padding: 10px 18px;
+  border-radius: 10px;
+}
+.glass-card .nav_button.svelte-na9uof:hover { background: var(--cta-hover-color); }
+
+/* Avoid double blur: when RealGlass is applied, disable CSS backdrop blur */
+[data-realglass].glass-bg,
+.glass-bg[data-rg-applied] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: transparent !important;
+}

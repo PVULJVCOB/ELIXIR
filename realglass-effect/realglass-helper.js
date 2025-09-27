@@ -40,6 +40,10 @@
   class RealGlassManager {
     static _instance = null;
     static _initPromise = null;
+    static _applied = new Map(); // el -> options
+    static _lastCaptureY = 0;
+    static _recapturePending = false;
+    static _listenersBound = false;
 
     static async getInstance(){
       if (this._instance) return this._instance;
@@ -85,6 +89,10 @@
       this._show(el);
 
       await inst.apply(el, opts);
+      // track for future reapply
+      try { this._applied.set(el, opts); } catch(_) {}
+      // mark for CSS overrides
+      try { el.setAttribute('data-rg-applied', ''); } catch(_) {}
       return inst;
     }
 
@@ -96,7 +104,11 @@
       // Hide all first
       nodes.forEach(n => this._hideUntilReady(n));
 
-      await this.ensureInitialized();
+      // Scroll to top for a consistent full-page screenshot, then restore
+      const prevX = window.scrollX; const prevY = window.scrollY;
+      window.scrollTo(0, 0);
+
+  await this.ensureInitialized();
       const inst = await this.getInstance();
 
       for (const n of nodes){
@@ -107,21 +119,65 @@
         }
         // Show then apply
         this._show(n);
-        await inst.apply(n, this._mergeOptions(DEFAULT_OPTIONS, parsed));
+        const opts = this._mergeOptions(DEFAULT_OPTIONS, parsed);
+        await inst.apply(n, opts);
+        try { this._applied.set(n, opts); } catch(_) {}
+        try { n.setAttribute('data-rg-applied', ''); } catch(_) {}
       }
+
+      // Restore scroll position on next frame to avoid jank during capture
+      requestAnimationFrame(() => window.scrollTo(prevX, prevY));
+
+      // Set capture baseline and bind listeners for recapture on significant scroll
+      this._lastCaptureY = window.scrollY || 0;
+      this._bindAutoRecapture();
+    }
+
+    static _bindAutoRecapture(){
+      if (this._listenersBound) return;
+      this._listenersBound = true;
+      const onScrollOrResize = () => {
+        const dy = Math.abs((window.scrollY || 0) - this._lastCaptureY);
+        const threshold = Math.max(200, window.innerHeight * 0.6);
+        if (dy < threshold || this._recapturePending) return;
+        this._recapturePending = true;
+        // Debounce a bit to avoid zapping while scrolling fast
+        setTimeout(async () => {
+          try {
+            const inst = await this.getInstance();
+            // Re-run init to retake screenshot at current scroll position
+            await inst.init();
+            // Re-apply to all tracked elements without hiding to avoid flicker
+            for (const [el, opts] of this._applied.entries()){
+              try { await inst.apply(el, opts); } catch(e){ console.warn('RealGlass re-apply failed', e); }
+            }
+            this._lastCaptureY = window.scrollY || 0;
+          } catch(e){ console.error('RealGlass recapture failed', e); }
+          finally { this._recapturePending = false; }
+        }, 120);
+      };
+      window.addEventListener('scroll', onScrollOrResize, { passive: true });
+      window.addEventListener('resize', onScrollOrResize);
     }
   }
 
   // Expose
   global.RealGlassManager = RealGlassManager;
 
-  // Auto run on DOMContentLoaded
+  // Prefer running after full window load so the screenshot captures all content
   document.addEventListener('DOMContentLoaded', () => {
-    // If CDN not present, warn gracefully
-    if (typeof RealGlass === 'undefined'){
-      console.warn('RealGlass library not found. Include https://cdn.jsdelivr.net/npm/realglass/RealGlass.standalone.js before realglass-helper.js');
-      return;
+    const run = () => {
+      if (typeof RealGlass === 'undefined'){
+        console.warn('RealGlass library not found. Include https://cdn.jsdelivr.net/npm/realglass/RealGlass.standalone.js before realglass-helper.js');
+        return;
+      }
+      RealGlassManager.autoApply().catch(err => console.error('RealGlass autoApply failed', err));
+    };
+    if (document.readyState === 'complete') {
+      // All resources loaded already
+      run();
+    } else {
+      window.addEventListener('load', run, { once: true });
     }
-    RealGlassManager.autoApply().catch(err => console.error('RealGlass autoApply failed', err));
   });
 })(window);
