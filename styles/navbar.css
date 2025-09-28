@@ -122,10 +122,4 @@ main { min-height: 140vh; }
 }
 .glass-card .nav_button.siderun:hover { background: var(--cta-hover-color); }
 
-/* Avoid double blur: when RealGlass is applied, disable CSS backdrop blur */
-[data-realglass].glass-bg,
-.glass-bg[data-rg-applied] {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  background: transparent !important;
-}
+
