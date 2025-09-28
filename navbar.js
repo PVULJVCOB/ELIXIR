@@ -5,16 +5,16 @@
   const mobileMenu = document.getElementById('mobileMenu');
 
   const burgerIcon = `
-    <div class="menu-prompt_icon svelte-na9uof">
-      <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="svelte-na9uof">
+    <div class="menu-prompt_icon siderun">
+      <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
         <rect x="9" y="18" width="19" height="1"></rect>
         <rect x="9" y="22" width="19" height="1"></rect>
         <rect x="9" y="14" width="19" height="1"></rect>
       </svg>
     </div>`;
   const closeIcon = `
-    <div class="menu-prompt_icon svelte-na9uof">
-      <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="svelte-na9uof">
+    <div class="menu-prompt_icon siderun">
+      <svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" fill="#080232" class="siderun">
         <rect x="11" y="25.4351" width="19" height="1" transform="rotate(-45 11 25.4351)"></rect>
         <rect x="11.707" y="12.0005" width="19" height="1" transform="rotate(45 11.707 12.0005)"></rect>
       </svg>
@@ -59,8 +59,8 @@
   // Flying border effect is now provided by SideRun.init in effects/siderun.js
 
   // Initialize flying borders for desktop nav and mobile bits
-  const desktopNav = document.querySelector('.nav.svelte-na9uof');
-  const mobileBar = document.querySelector('.mobile-nav.svelte-na9uof');
+  const desktopNav = document.querySelector('.nav.siderun');
+  const mobileBar = document.querySelector('.mobile-nav.siderun');
   const mobilePanel = document.querySelector('#mobileMenu');
   const glassCard = document.querySelector('#glassCard');
   if (window.SideRun && typeof window.SideRun.init === 'function'){

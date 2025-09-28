@@ -28,49 +28,49 @@ button { appearance: none; border: 0; background: none; padding: 0; font: inheri
 .D-mobile-menu { font-size: 34px; line-height: 1.2em; font-weight: 400; }
 
 /* Logo */
-.logo.svelte-na9uof {
+.logo.siderun {
   position: absolute; top: var(--pad); left: var(--pad);
   width: 96px; height: 53px; z-index: 2; display: grid; place-items: center;
 }
-.logo.svelte-na9uof svg { display: block; width: 96px; height: 53px; }
+.logo.siderun svg { display: block; width: 96px; height: 53px; }
 
 /* Desktop nav */
-.nav.svelte-na9uof {
+.nav.siderun {
   position: absolute; top: var(--pad); right: var(--pad);
   display: flex; height: 47px; margin: 8px; border-radius: 3px; z-index: 1; font-size: 14px;
 }
-.nav_stroke.svelte-na9uof { position: absolute; top: -11px; right: -11px; bottom: -11px; left: -11px; pointer-events: none; }
-.nav_links.svelte-na9uof { display: flex; align-items: center; }
-.nav_link.svelte-na9uof { color: var(--text-color); text-decoration: none; padding: 0 15px; transition: .3s opacity; }
-.nav_link.svelte-na9uof:first-of-type { padding-left: 30px; }
-.nav_link.svelte-na9uof:last-of-type { padding-right: 30px; }
-.nav_links.svelte-na9uof:hover .nav_link.svelte-na9uof { opacity: .6; }
-.nav_links.svelte-na9uof:hover .nav_link.svelte-na9uof:hover { opacity: 1; }
-.nav_button.svelte-na9uof {
+.nav_stroke.siderun { position: absolute; top: -11px; right: -11px; bottom: -11px; left: -11px; pointer-events: none; }
+.nav_links.siderun { display: flex; align-items: center; }
+.nav_link.siderun { color: var(--text-color); text-decoration: none; padding: 0 15px; transition: .3s opacity; }
+.nav_link.siderun:first-of-type { padding-left: 30px; }
+.nav_link.siderun:last-of-type { padding-right: 30px; }
+.nav_links.siderun:hover .nav_link.siderun { opacity: .6; }
+.nav_links.siderun:hover .nav_link.siderun:hover { opacity: 1; }
+.nav_button.siderun {
   display: flex; align-items: center; padding: 0 30px; border-radius: 0 3px 3px 0;
   color: var(--cta-text-color); background: var(--cta-color); transition: .3s background-color, .3s color;
 }
-.nav_button.svelte-na9uof:hover { background: var(--cta-hover-color); }
+.nav_button.siderun:hover { background: var(--cta-hover-color); }
 
 /* Mobile nav */
-.mobile-nav.svelte-na9uof { display: none; position: absolute; top: var(--pad); right: var(--pad); margin: 8px; z-index: 2; }
-.menu-prompt.svelte-na9uof { width: 37px; height: 37px; border-radius: 3px; margin-right: 4px; display: grid; place-items: center; }
-.menu-prompt_icon.svelte-na9uof svg { fill: var(--text-color); display: block; }
-.mobile-nav.svelte-na9uof .nav_button.svelte-na9uof { border-radius: 3px; padding: 0 20px; }
+.mobile-nav.siderun { display: none; position: absolute; top: var(--pad); right: var(--pad); margin: 8px; z-index: 2; }
+.menu-prompt.siderun { width: 37px; height: 37px; border-radius: 3px; margin-right: 4px; display: grid; place-items: center; }
+.menu-prompt_icon.siderun svg { fill: var(--text-color); display: block; }
+.mobile-nav.siderun .nav_button.siderun { border-radius: 3px; padding: 0 20px; }
 
 /* Backdrop + mobile menu panel */
-.click-catch.svelte-na9uof { display: none; position: fixed; inset: 0; z-index: 1; background: rgba(13, 17, 19, 0.325); }
-.mobile-menu.svelte-na9uof {
+.click-catch.siderun { display: none; position: fixed; inset: 0; z-index: 1; background: rgba(13, 17, 19, 0.325); }
+.mobile-menu.siderun {
   display: none; position: fixed; flex-direction: column; top: 110px; left: 0; right: 0; margin: auto; z-index: 3;
   max-width: 400px; width: calc(100% - 2 * var(--pad) - 16px); box-sizing: border-box;
   padding: 5px 20px 20px; border-radius: 6px;
 }
-.mobile-menu_links.svelte-na9uof { display: flex; flex-direction: column; }
-.mobile-menu_link.svelte-na9uof { display: flex; height: 2.2em; align-items: center; color: #00000059; border-bottom: .5px solid rgba(255,255,255,0.2); }
-.mobile-menu_link.svelte-na9uof:last-of-type { border-bottom: none; }
-.buy-block.svelte-na9uof { display: flex; width: 100%; justify-content: space-between; align-items: center; margin-top: 70px; }
-.buy-block_left.svelte-na9uof { display: flex; flex-direction: column; }
-.buy-block_cta.svelte-na9uof { display: block; color: #000; background: #fff; min-width: 70px; padding: 10px 15px; text-align: center; border-radius: 3px; cursor: pointer; }
+.mobile-menu_links.siderun { display: flex; flex-direction: column; }
+.mobile-menu_link.siderun { display: flex; height: 2.2em; align-items: center; color: #00000059; border-bottom: .5px solid rgba(255,255,255,0.2); }
+.mobile-menu_link.siderun:last-of-type { border-bottom: none; }
+.buy-block.siderun { display: flex; width: 100%; justify-content: space-between; align-items: center; margin-top: 70px; }
+.buy-block_left.siderun { display: flex; flex-direction: column; }
+.buy-block_cta.siderun { display: block; color: #000; background: #fff; min-width: 70px; padding: 10px 15px; text-align: center; border-radius: 3px; cursor: pointer; }
 
 /* Flying border SVG base styling */
 .flying-border { width: 100%; height: 100%; }
@@ -83,14 +83,14 @@ button { appearance: none; border: 0; background: none; padding: 0; font: inheri
 /* Responsive */
 @media (max-width: 768px) {
   :root { --pad: 25px; }
-  .nav.svelte-na9uof { display: none; }
-  .mobile-nav.svelte-na9uof { display: flex; align-items: center; }
+  .nav.siderun { display: none; }
+  .mobile-nav.siderun { display: flex; align-items: center; }
 }
 
 main { min-height: 140vh; }
 
 /* Fixed centered glass card */
-.glass-card.svelte-na9uof {
+.glass-card.siderun {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -103,7 +103,7 @@ main { min-height: 140vh; }
   z-index: 1; /* sits above content but under elements that need to be on top, nav has its own z */
   display: grid;
 }
-.glass-card .nav_stroke.svelte-na9uof {
+.glass-card .nav_stroke.siderun {
   position: absolute;
   top: -11px; right: -11px; bottom: -11px; left: -11px;
   pointer-events: none;
@@ -114,13 +114,13 @@ main { min-height: 140vh; }
   gap: 8px;
   text-align: center;
 }
-.glass-card .nav_button.svelte-na9uof {
+.glass-card .nav_button.siderun {
   background: var(--cta-color);
   color: var(--cta-text-color);
   padding: 10px 18px;
   border-radius: 10px;
 }
-.glass-card .nav_button.svelte-na9uof:hover { background: var(--cta-hover-color); }
+.glass-card .nav_button.siderun:hover { background: var(--cta-hover-color); }
 
 /* Avoid double blur: when RealGlass is applied, disable CSS backdrop blur */
 [data-realglass].glass-bg,

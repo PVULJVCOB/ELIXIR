@@ -1,9 +1,4 @@
-/*
-  SideRun effect
-  Usage: const dispose = SideRun.init(hostEl, options?)
-  - hostEl must contain a child .nav_stroke.svelte-na9uof (stroke host) where the SVG is injected
-  - options: { radius, tail, gap, ease, hoverAxis: 'x'|'y', isBottom, isTop, hoverHorizontal }
-*/
+
 (function(){
   const NS = 'http://www.w3.org/2000/svg';
 
@@ -12,7 +7,7 @@
 
   function init(hostEl, options = {}){
     if (!hostEl) return () => {};
-    const strokeHost = hostEl.querySelector('.nav_stroke.svelte-na9uof');
+    const strokeHost = hostEl.querySelector('.nav_stroke.siderun');
     if (!strokeHost) return () => {};
 
     strokeHost.innerHTML = '';
