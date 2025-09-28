@@ -1,7 +1,7 @@
 /* SideRun base styles (duplicated from .flying-border, renamed) */
-.siderun-border { width: 100%; height: 100%; }
+.siderun-border { width: 100%; height: 100%; color: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);  }
 .siderun-border rect { vector-effect: non-scaling-stroke; }
-.siderun-border .sr-static-outer { stroke: #ffffff; stroke-width: 3; stroke-linecap: round; fill: none; }
-.siderun-border .sr-static-inner { stroke: rgba(255,255,255,0.3); stroke-width: 1; stroke-linecap: round; fill: none; }
-.siderun-border .sr-runner { stroke: #ffffff; stroke-width: 3; stroke-linecap: round; fill: none; }
-.siderun-border .sr-runner-ghost { stroke: rgba(255,255,255,0.5); stroke-width: 1; stroke-linecap: round; fill: none; }
+.siderun-border .sr-static-outer { stroke: #df6502; stroke-width: 3; stroke-linecap: round; fill: none;}
+.siderun-border .sr-static-inner { stroke: #ffffff; stroke-width: 1; stroke-linecap: round; fill: none;  }
+.siderun-border .sr-runner { stroke: #df6502; stroke-width: 3; stroke-linecap: round; fill: none;}
+.siderun-border .sr-runner-ghost { stroke: #ffffff; stroke-width: 1; stroke-linecap: round; fill: none; }

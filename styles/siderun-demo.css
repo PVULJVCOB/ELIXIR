@@ -1,18 +1,55 @@
 /* Demo styles for SideRun host elements */
 
+/* Hero centering for the demo container */
+#srContainer {
+  /* Fixed, centered hero at 50% viewport size */
+  width: 50vw;
+  height: 50vh;
+  height: 50svh; /* better on mobile browsers */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center; /* center contents inside */
+}
+
+/* Center text and fine-tune hero typography inside the hero container */
+#srContainer .glass-card_content {
+  text-align: center;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+}
+
+/* Headline and subline sizing scoped to the hero */
+#srContainer .D5 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  font-weight: 600;
+}
+
+#srContainer .D8 {
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.4;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
 .sr-container {
   position: relative; /* required so .nav_stroke can overlay */
   display: grid;
   place-items: center;
   width: min(92vw, 540px);
-  min-height: 180px;
-  margin: 40px auto;
+  min-height: 180px; /* overridden by #srContainer for hero */
+  margin: 40px auto; /* overridden by #srContainer for hero */
   padding: 18px 20px;
   border-radius: 3px;
   border: 0px solid rgba(255,255,255,0.3);
 }
 .sr-container .nav_stroke.siderun {
   position: absolute; inset: -11px; pointer-events: none; /* where SideRun injects SVG */
+  z-index: 0; /* border below content */
 }
 
 .sr-button {
@@ -23,9 +60,14 @@
   border-radius: 12px; /* match sr-container/card curvature */
   color: var(--cta-text-color);
   background: var(--cta-color); /* dark variant like CTA */
-  border: 1px solid rgba(255,255,255,0.3); /* match card border */
+  border: 0px solid rgba(255,255,255,0.3); /* match card border */
 }
 .sr-button:hover { background: var(--cta-hover-color); }
 .sr-button .nav_stroke.siderun {
   position: absolute; inset: -11px; pointer-events: none; /* outside like navbar/card */
+  z-index: 0; /* border below button content */
 }
+
+/* Ensure hero/button content sits above the border layer */
+#srContainer > :not(.nav_stroke) { position: relative; z-index: 1; }
+.sr-button > :not(.nav_stroke) { position: relative; z-index: 1; }
